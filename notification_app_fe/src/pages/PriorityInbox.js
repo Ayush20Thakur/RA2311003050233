@@ -4,47 +4,47 @@ import { getTopNotifications } from "../utils/priority";
 
 export default function PriorityInbox() {
   const [data, setData] = useState([]);
-  const [limit, setLimit] = useState(10); // ✅ NEW
+  const [limit, setLimit] = useState(10);
 
   useEffect(() => {
     fetchNotifications().then(res => {
       const top = getTopNotifications(res?.notifications || [], limit);
       setData(top);
     });
-  }, [limit]); // ✅ IMPORTANT (updates when limit changes)
+  }, [limit]);
 
   return (
     <div>
       <h2>Priority Inbox</h2>
 
-      {/* ✅ LIMIT DROPDOWN */}
       <select onChange={(e) => setLimit(Number(e.target.value))}>
         <option value={10}>Top 10</option>
         <option value={15}>Top 15</option>
         <option value={20}>Top 20</option>
       </select>
 
-      <br /><br />
-
-      {data.map(n => (
-        <div
-          key={n.ID}
-          style={{
-            marginBottom: "10px",
-            padding: "8px",
-
-            // ✅ HIGHLIGHT IMPORTANT
-            background:
-              n.Type === "Placement"
-                ? "#ffd700"
-                : n.Type === "Result"
-                ? "#add8e6"
-                : "#eee"
-          }}
-        >
-          <b>{n.Type}</b> - {n.Message}
-        </div>
-      ))}
+      <div style={{ marginTop: "15px" }}>
+        {data.map(n => (
+          <div
+            key={n.ID}
+            style={{
+              padding: "10px",
+              marginBottom: "8px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+              background:
+                n.Type === "Placement"
+                  ? "#fff3cd"
+                  : n.Type === "Result"
+                  ? "#d1ecf1"
+                  : "#f8f9fa"
+            }}
+          >
+            <b>{n.Type}</b>
+            <div>{n.Message}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

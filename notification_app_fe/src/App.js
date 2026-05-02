@@ -3,13 +3,16 @@ import PriorityInbox from "./pages/PriorityInbox";
 
 function App() {
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Notification System</h1>
+    <div style={{ padding: "20px", fontFamily: "Arial" }}>
+      <h1 style={{ textAlign: "center" }}>Notification System</h1>
+
       <AllNotifications />
+
       <hr />
+
       <PriorityInbox />
     </div>
   );
 }
 
-export default App;
+export default App; //THIS WAS MISSING
