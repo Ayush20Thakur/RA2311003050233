@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
 import { fetchNotifications } from "../api/notifications";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Select,
+  MenuItem,
+  Box
+} from "@mui/material";
 
 export default function AllNotifications() {
   const [data, setData] = useState([]);
@@ -12,35 +20,38 @@ export default function AllNotifications() {
   }, []);
 
   return (
-    <div style={{ marginBottom: "30px" }}>
-      <h2>All Notifications</h2>
+    <Box>
+      <Typography variant="h6" gutterBottom>
+        All Notifications
+      </Typography>
 
-      <select onChange={(e) => setFilter(e.target.value)}>
-        <option value="">All</option>
-        <option value="Placement">Placement</option>
-        <option value="Result">Result</option>
-        <option value="Event">Event</option>
-      </select>
+      <Select
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+        displayEmpty
+        fullWidth
+        style={{ marginBottom: "15px" }}
+      >
+        <MenuItem value="">All</MenuItem>
+        <MenuItem value="Placement">Placement</MenuItem>
+        <MenuItem value="Result">Result</MenuItem>
+        <MenuItem value="Event">Event</MenuItem>
+      </Select>
 
-      <div style={{ marginTop: "15px" }}>
-        {data
-          .filter(n => !filter || n.Type === filter)
-          .map(n => (
-            <div
-              key={n.ID}
-              style={{
-                padding: "10px",
-                marginBottom: "8px",
-                border: "1px solid #ccc",
-                borderRadius: "6px",
-                background: "#fafafa"
-              }}
-            >
-              <b>{n.Type}</b>
-              <div>{n.Message}</div>
-            </div>
-          ))}
-      </div>
-    </div>
+      {data
+        .filter(n => !filter || n.Type === filter)
+        .map(n => (
+          <Card key={n.ID} style={{ marginBottom: "10px" }}>
+            <CardContent>
+              <Typography variant="subtitle2" color="textSecondary">
+                {n.Type}
+              </Typography>
+              <Typography variant="body1">
+                {n.Message}
+              </Typography>
+            </CardContent>
+          </Card>
+        ))}
+    </Box>
   );
 }

@@ -1,18 +1,21 @@
 import AllNotifications from "./pages/AllNotifications";
 import PriorityInbox from "./pages/PriorityInbox";
+import { Container, Typography, Divider } from "@mui/material";
 
 function App() {
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial" }}>
-      <h1 style={{ textAlign: "center" }}>Notification System</h1>
+    <Container maxWidth="md" style={{ marginTop: "30px" }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        Notification System
+      </Typography>
 
       <AllNotifications />
 
-      <hr />
+      <Divider style={{ margin: "30px 0" }} />
 
       <PriorityInbox />
-    </div>
+    </Container>
   );
 }
 
-export default App; //THIS WAS MISSING
+export default App;

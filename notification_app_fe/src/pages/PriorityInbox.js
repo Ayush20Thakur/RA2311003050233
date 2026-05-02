@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import { fetchNotifications } from "../api/notifications";
 import { getTopNotifications } from "../utils/priority";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Select,
+  MenuItem,
+  Box
+} from "@mui/material";
 
 export default function PriorityInbox() {
   const [data, setData] = useState([]);
@@ -13,38 +21,47 @@ export default function PriorityInbox() {
     });
   }, [limit]);
 
+  const getColor = (type) => {
+    if (type === "Placement") return "#fff3cd";
+    if (type === "Result") return "#d1ecf1";
+    return "#f8f9fa";
+  };
+
   return (
-    <div>
-      <h2>Priority Inbox</h2>
+    <Box>
+      <Typography variant="h6" gutterBottom>
+        Priority Inbox
+      </Typography>
 
-      <select onChange={(e) => setLimit(Number(e.target.value))}>
-        <option value={10}>Top 10</option>
-        <option value={15}>Top 15</option>
-        <option value={20}>Top 20</option>
-      </select>
+      <Select
+        value={limit}
+        onChange={(e) => setLimit(Number(e.target.value))}
+        fullWidth
+        style={{ marginBottom: "15px" }}
+      >
+        <MenuItem value={10}>Top 10</MenuItem>
+        <MenuItem value={15}>Top 15</MenuItem>
+        <MenuItem value={20}>Top 20</MenuItem>
+      </Select>
 
-      <div style={{ marginTop: "15px" }}>
-        {data.map(n => (
-          <div
-            key={n.ID}
-            style={{
-              padding: "10px",
-              marginBottom: "8px",
-              borderRadius: "6px",
-              border: "1px solid #ccc",
-              background:
-                n.Type === "Placement"
-                  ? "#fff3cd"
-                  : n.Type === "Result"
-                  ? "#d1ecf1"
-                  : "#f8f9fa"
-            }}
-          >
-            <b>{n.Type}</b>
-            <div>{n.Message}</div>
-          </div>
-        ))}
-      </div>
-    </div>
+      {data.map(n => (
+        <Card
+          key={n.ID}
+          style={{
+            marginBottom: "10px",
+            background: getColor(n.Type)
+          }}
+        >
+          <CardContent>
+            <Typography variant="subtitle2">
+              {n.Type}
+            </Typography>
+            <Typography variant="body1">
+              {n.Message}
+            </Typography>
+          </CardContent>
+        </Card>
+      ))}
+    </Box>
   );
 }
